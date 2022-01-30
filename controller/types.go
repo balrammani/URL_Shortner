@@ -9,6 +9,7 @@ type (
 	// Controller ...
 	Controller interface {
 		CreateShortLink(url string) (string, error)
+		Redirect(url string) (string, error)
 	}
 
 	controller struct {

@@ -18,5 +18,6 @@ func main(){
 
 	r := mux.NewRouter()
 	r.HandleFunc("/create_short_link", handlers.URLShortner)
+	r.HandleFunc("/{shortlink}", handlers.Redirect)
 	log.Fatal( http.ListenAndServe(":8080", r))
 }

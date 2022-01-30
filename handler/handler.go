@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/balram/rest-url-shortner/controller"
+	"github.com/gorilla/mux"
 )
 
 func New() (Handler, error) {
@@ -40,5 +41,32 @@ func (h *handler) URLShortner(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(key + "\n"))
+
+}
+
+func (h *handler) Redirect(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("only support get request\n"))
+		return
+	}
+
+	vars := mux.Vars(r)
+	url, ok := vars["shortlink"]
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("shortlink key cannot be empty\n"))
+		return
+	}
+
+	key, err := h.controller.Redirect(url)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	http.Redirect(w, r, key, 301)
 
 }

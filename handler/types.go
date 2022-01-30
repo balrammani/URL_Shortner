@@ -10,6 +10,8 @@ type (
 	// Handler ...
 	Handler interface {
 		URLShortner(w http.ResponseWriter, r *http.Request)
+		Redirect(w http.ResponseWriter, r *http.Request)
+
 	}
 
 	handler struct {

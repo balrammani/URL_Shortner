@@ -47,3 +47,21 @@ func (h *controller) CreateShortLink(originalURL string) (string, error) {
 	log.Printf("shortlink %q created for the url %q", shortURL, originalURL)
 	return fmt.Sprintf("%s%s", REDIRECT_URL, shortURL), nil
 }
+
+func (h *controller) Redirect(shortURL string) (string, error) {
+	data, err := h.repo.Read()
+	if err != nil {
+		log.Fatalf("error in reading existing url from file :%s", err.Error())
+		return "", err
+	}
+
+	for key, value := range data {
+		if value == shortURL {
+			log.Printf("redirection url %q for the shortlink %q", key, shortURL)
+			return key, nil
+		}
+	}
+
+	return "", fmt.Errorf("unable to find original url for the key : %s", shortURL)
+
+}
