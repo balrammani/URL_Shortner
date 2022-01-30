@@ -1,13 +1,22 @@
 package main
 
 import (
-	"fmt"
-	randomgenerator "github.com/balram/rest-url-shortner/utils/random_generator"
 	"log"
+	"net/http"
+
+	"github.com/balram/rest-url-shortner/handler"
+	"github.com/gorilla/mux"
 )
 
 func main(){
 	log.Println("Starting rest service - url shortner")
-	random,_:=randomgenerator.New()
-	fmt.Println(random.GenerateRandomString())
+
+	handlers, err := handler.New()
+	if err != nil {
+		log.Fatalf("Handler New function error in main method :%s", err.Error())
+	}
+
+	r := mux.NewRouter()
+	r.HandleFunc("/create_short_link", handlers.URLShortner)
+	log.Fatal( http.ListenAndServe(":8080", r))
 }
