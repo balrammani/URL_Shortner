@@ -11,7 +11,7 @@ create-docker-image:
 	docker build -t balrammani/url_shortner .
 
 docker-run:
-	docker run --rm -p 8080:8080 --name short-url rest-url-shortner
+	docker run --rm -p 8080:8080 --name short-url balrammani/url_shortner
 
 docker-clean:
 	docker stop short-url
