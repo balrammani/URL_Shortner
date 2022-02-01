@@ -3,9 +3,9 @@ This service has two endpoints:
     1. one to create short url
     2. Another on to redirect shortURL to original URL
     
-### Starting service
+### Starting serviceCancel changes
 * for developement purpose use "make run"
-* to run from docker use "make docker-run" (Make sure to download docker image from https://hub.docker.com/r/balrammani/url_shortner or create new image by using "make create-docker-image")
+* to run from docker use "make docker-run"
 
 ### Create ShortURL endpoint:
 
